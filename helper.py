@@ -18,3 +18,5 @@ def exitGame(name):
 	cls()
 	print('See you next time, %s (:' % (name))
 	exit()
+
+currentDir = os.path.dirname(os.path.realpath(__file__))

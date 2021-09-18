@@ -1,10 +1,11 @@
 from Ship import Ship
 
 class Board:
-	def __init__(self, size: int, settings: dict):
+	def __init__(self, settings: dict):
 		self.settings = settings
 		self.ships: list[Ship] = []
-		self.size = size
+		self.size = settings.get('boardSize')
+		self.score = 0
 		# Generate an empty grid to play in
 		self.grid: list[list[dict]] = []
 		for i in range(self.size):
@@ -58,7 +59,7 @@ class Board:
 												# If the ship has died
 												if counter == col2Size:
 													return col.get('id')
-
+							self.score += 1
 							return 2
 						else:
 							return 1

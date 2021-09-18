@@ -4,6 +4,7 @@ from leaderboards import viewLeaderboards
 import time
 
 def onboarding():
+	cls()
 	playerName = input("""
 Hello, I'm Battleship.py! What is your name?\n
 """)
@@ -33,6 +34,7 @@ def mainMenu(name: str):
 				viewLeaderboards(name)
 			elif choice == 3:
 				exitGame(name)
+			break
 		except ValueError:
 			print('Please enter a valid option!')
 			error = True
