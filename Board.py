@@ -84,6 +84,7 @@ class Board:
 			# Print the row
 			print('%i%s%s' % (rowNumber, spaces, ' '.join(rowContent)))
 
+	# Render a version of the board with all of the ships identified
 	def renderResultBoard(self):
 		print(self.generateXAxis())
 		# Render every row, appending a row number
