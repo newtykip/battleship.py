@@ -1,4 +1,4 @@
-from helper import cls, banner, exitGame
+from helper import cls, BANNER, exitGame
 from singleplayer import startSingleplayer
 from leaderboards import viewLeaderboards
 import time
@@ -17,7 +17,7 @@ It's nice to meet you, %s! Enjoy the game! <3
 
 def mainMenu(name: str):
 	error = False
-	print(banner)
+	print(BANNER)
 	print("""
 %s, please select an option:
 
