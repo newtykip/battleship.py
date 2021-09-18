@@ -1,7 +1,8 @@
 from Ship import Ship
 
 class Board:
-	def __init__(self, size: int, shipList: list[dict]):
+	def __init__(self, size: int, settings: dict):
+		self.settings = settings
 		self.ships: list[Ship] = []
 		self.size = size
 		# Generate an empty grid to play in
@@ -9,11 +10,11 @@ class Board:
 		for i in range(self.size):
 			row = []
 			for j in range(self.size):
-				col = { 'id': None, 'shipType': None, 'hit': False }
+				col = { 'id': None, 'name': None, 'hit': False }
 				row.append(col)
 			self.grid.append(row)
 		# Populate self.ships with the JSON data
-		for shipData in shipList:
+		for shipData in settings.get('ships'):
 			for i in range(shipData.get('quantity')):
 				ship = Ship(shipData.get('name'), shipData.get('size'))
 				self.ships.append(ship)
@@ -34,6 +35,7 @@ class Board:
 	# 0 - Already hit
 	# 1 - New hit, miss
 	# 2 - New hit, success
+	# str - New hit, ship sunk (return is the ship ID)
 	def shoot(self, x: int, y: int):
 		# i = y, j = x
 		for i, row in enumerate(self.grid):
@@ -42,6 +44,21 @@ class Board:
 					if col.get('hit') != True:
 						col['hit'] = True
 						if col.get('id') != None:
+							# Check if that was the last of the ship to be sunk
+							counter = 0
+							for row2 in self.grid:
+								for col2 in row2:
+									if col2.get('id') == col.get('id'):
+										for shipType in self.settings.get('ships'):
+											if shipType.get('name') == col2.get('name'):
+												# Find the size of the ship in column 2
+												col2Size = shipType.get('size')
+												if col2.get('hit'):
+													counter += 1
+												# If the ship has died
+												if counter == col2Size:
+													return col.get('id')
+
 							return 2
 						else:
 							return 1
@@ -97,7 +114,7 @@ class Board:
 				spaces += ' '
 			# Generate row contents
 			for col in row:
-				type = col.get('shipType')
+				type = col.get('name')
 				code = ''
 				if type == None:
 					code = ' '

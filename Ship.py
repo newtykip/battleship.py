@@ -12,7 +12,7 @@ class Ship:
 
 	# Generate a datapoint that represents the ship and its state
 	def generateDatapoint(self):
-		return { 'id': self.id, 'shipName': self.name, 'hit': self.hit }
+		return { 'id': self.id, 'name': self.name, 'hit': self.hit }
 
 	# Spawn the ship into the grid
 	def spawn(self, grid: list[list[dict]], gridSize: int):
