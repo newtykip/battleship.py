@@ -3,6 +3,11 @@ import os
 import json
 import re
 
+def cls():
+    os.system('cls' if os.name=='nt' else 'clear')
+
+cls()
+
 # Load settings.json
 with open(os.path.dirname(os.path.realpath(__file__)) + '/settings.json') as f:
 	settings = json.load(f)
@@ -18,7 +23,7 @@ board.render()
 while torpedos != 0:
 	while True:
 		try:
-			coordinates = input('Please enter the coordinates you would like to shoot at in an (x,y) format. You have %i torpedos remaining.\n' % (torpedos))
+			coordinates = input('\nPlease enter the coordinates you would like to shoot at in an (x,y) format. You have %i torpedos remaining.\n' % (torpedos))
 			# Remove any brackets
 			coordinates = re.sub(r'[\(\)]', '', coordinates)
 			coordinates = coordinates.split(',')
@@ -30,9 +35,10 @@ while torpedos != 0:
 			print('Please enter the coordinates in a valid format!\n')
 			continue
 	isHit = board.shoot(x, y)
+	cls()
 	board.render()
 	if isHit == 0:
-		print("You have already hit (%i,%i) - please select another location!" % (x, y))
+		print("\nYou have already hit (%i,%i) - please select another location!" % (x, y))
 	elif isHit == 1:
 		torpedos -= 1
 	elif isHit == 2:
