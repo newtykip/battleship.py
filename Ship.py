@@ -2,9 +2,9 @@ from uuid import uuid4 as uuid
 import random
 
 class Ship:
-	def __init__(self, shipType: str, shipSize: int):
+	def __init__(self, name: str, shipSize: int):
 		self.id = uuid().__str__()
-		self.type = shipType
+		self.name = name
 		self.size = shipSize
 		self.vertical = random.random() > 0.5
 		self.spawned = False
@@ -12,7 +12,7 @@ class Ship:
 
 	# Generate a datapoint that represents the ship and its state
 	def generateDatapoint(self):
-		return { 'id': self.id, 'shipType': self.type, 'hit': self.hit }
+		return { 'id': self.id, 'shipName': self.name, 'hit': self.hit }
 
 	# Spawn the ship into the grid
 	def spawn(self, grid: list[list[dict]], gridSize: int):

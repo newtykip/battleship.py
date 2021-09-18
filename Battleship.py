@@ -1,12 +1,18 @@
 from Board import Board
+import os
+import json
 
-board = Board(8)
+# Load settings.json
+with open(os.path.dirname(os.path.realpath(__file__)) + '/settings.json') as f:
+	settings = json.load(f)
+
+board = Board(8, settings.get('ships'))
+torpedos = settings.get('torpedos')
+score = 0
+
+# Ready the board and render it
 board.spawnShips()
 board.render()
-board.renderResultBoard()
-
-torpedos = 10
-score = 0
 
 while torpedos != 0:
 	coordinates = input('Please enter the coordinates you would like to shoot at in an (x,y) format. You have %i torpedos remaining.\n' % (torpedos)).split(',')

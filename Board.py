@@ -1,13 +1,7 @@
 from Ship import Ship
-import os
-import json
-
-# Load ship data from ships.json
-with open(os.path.dirname(os.path.realpath(__file__)) + '/ships.json') as f:
-	shipData = json.load(f)
 
 class Board:
-	def __init__(self, size: int):
+	def __init__(self, size: int, shipList: list[dict]):
 		self.ships: list[Ship] = []
 		self.size = size
 		# Generate an empty grid to play in
@@ -19,11 +13,9 @@ class Board:
 				row.append(col)
 			self.grid.append(row)
 		# Populate self.ships with the JSON data
-		for shipType in shipData:
-			typeQuantity = shipData.get(shipType).get('quantity')
-			typeSize = shipData.get(shipType).get('size')
-			for i in range(typeQuantity):
-				ship = Ship(shipType, typeSize)
+		for shipData in shipList:
+			for i in range(shipData.get('quantity')):
+				ship = Ship(shipData.get('name'), shipData.get('size'))
 				self.ships.append(ship)
 
 	# Spawn all ships populated in self.ships into the grid
@@ -47,7 +39,6 @@ class Board:
 		for i, row in enumerate(self.grid):
 			for j, col in enumerate(row):
 				if x == j + 1 and y == i + 1:
-					print(col)
 					if col.get('hit') != True:
 						col['hit'] = True
 						if col.get('id') != None:
