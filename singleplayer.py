@@ -1,3 +1,4 @@
+from leaderboards import saveScore
 from helper import cls
 from Board import Board
 from helper import currentDir
@@ -65,3 +66,4 @@ Game Over, %s!
 
 Your score was: %i (:
 """ % (name, board.score))
+	saveScore(name, board)
