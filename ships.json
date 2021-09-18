@@ -1,0 +1,22 @@
+{
+  "Battle": {
+    "size": 5,
+    "quantity": 1
+  },
+  "Cruiser": {
+    "size": 4,
+    "quantity": 1
+  },
+  "Submarine": {
+    "size": 3,
+    "quantity": 1
+  },
+  "Destroyer": {
+    "size": 2,
+    "quantity": 1
+  },
+  "Spy": {
+    "size": 1,
+    "quantity": 4
+  }
+}
