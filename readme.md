@@ -1,7 +1,16 @@
-# Battleship.py
+<div align="center">
+	<img src="banner.jpg" height="250">
+	<h1>Battleship.py</h1>
+</div>
+
+> A rendition of the popular game Battleship purely in the terminal, written with Python.
 
 #### To-do
 
 - [x] Sinking Notifications
-- [ ] Leaderboards for 1 player mode
+- [x] Leaderboards for 1 player mode
+- [ ] Colorise the console
+- [ ] Make leaderboards global
 - [ ] 2 player mode
+
+<sub>View the license <a href="license.md">here.</a></sub>
