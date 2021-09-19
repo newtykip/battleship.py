@@ -1,7 +1,8 @@
 from leaderboards import saveScore
-from helper import cls
+from helper import cls, error
 from Board import Board
 from helper import currentDir
+import formatting
 import json
 import re
 
@@ -31,7 +32,14 @@ def startSingleplayer(name: str):
 				y = int(coordinates[1])
 				break
 			except ValueError:
-				print('Please enter the coordinates in a valid format!\n')
+				cls()
+				board.render()
+				error('\nPlease enter the coordinates in a valid format this time!')
+				continue
+			except IndexError:
+				cls()
+				board.render()
+				error('\nPlease enter a pair of two coordinates this time!')
 				continue
 		# Shoot the shot
 		hitResponse = board.shoot(x, y)
@@ -54,16 +62,12 @@ def startSingleplayer(name: str):
 			for shipType in settings.get('ships'):
 				if shipType.get('name') == shipName:
 					shipQuantity = shipType.get('quantity')
-			print("\nCongratulations! You have sunk 1 of %i %ss!" % (shipQuantity, shipName))
+			print(formatting.bold(formatting.green("\nCongratulations! You have sunk 1 of %i %ss!" % (shipQuantity, shipName))))
 	gameOver(name, board)
 
 def gameOver(name: str, board: Board):
 	cls()
 	board.renderResultBoard()
-	print("""
-
-Game Over, %s!
-
-Your score was: %i (:
-""" % (name, board.score))
+	print(formatting.bold(formatting.green('\nGame over, %s' % (name))))
+	print('Your score was: %s' % (formatting.bold(board.score)))
 	saveScore(name, board)

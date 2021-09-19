@@ -1,4 +1,5 @@
 from Ship import Ship
+import formatting
 
 class Board:
 	def __init__(self, settings: dict):
@@ -83,7 +84,8 @@ class Board:
 		
 	# Render the board
 	def render(self):
-		print(self.generateXAxis())
+		xAxis = self.generateXAxis()
+		print(xAxis)
 		for rowNumber, row in enumerate(self.grid):
 			rowContent = []
 			rowNumber = rowNumber + 1
@@ -94,9 +96,9 @@ class Board:
 			# Generate row contents
 			for col in row:
 				if col.get('hit') and col.get('id') != None:
-					rowContent.append('[x]')
+					rowContent.append(formatting.green('[x]'))
 				elif col.get('hit'):
-					rowContent.append('[o]')
+					rowContent.append(formatting.red('[ ]'))
 				else:
 					rowContent.append('[ ]')
 			# Print the row
@@ -104,7 +106,8 @@ class Board:
 
 	# Render a version of the board with all of the ships identified
 	def renderResultBoard(self):
-		print(self.generateXAxis())
+		xAxis = self.generateXAxis()
+		print(xAxis)
 		# Render every row, appending a row number
 		for rowNumber, row in enumerate(self.grid):
 			rowContent = []
@@ -116,11 +119,13 @@ class Board:
 			# Generate row contents
 			for col in row:
 				type = col.get('name')
-				code = ''
-				if type == None:
-					code = ' '
+				if col.get('name') == None and not col.get('hit'):
+					rowContent.append('[ ]')
+				elif col.get('name') == None and col.get('hit'):
+					rowContent.append(formatting.red('[ ]'))
+				elif col.get('name') != None and col.get('hit'):
+					rowContent.append(formatting.green('[%s]' % (type[0])))
 				else:
-					code = type[0]
-				rowContent.append('[%s]' % code)
+					rowContent.append(formatting.cyan('[%s]' % (type[0])))
 			# Print the row, and make sure the row number can not be used again
 			print('%i%s%s' % (rowNumber, spaces, ' '.join(rowContent)))

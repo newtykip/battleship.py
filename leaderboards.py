@@ -2,15 +2,16 @@ from Board import Board
 from helper import cls, currentDir, exitGame
 import csv
 import time
+import formatting
 
-BANNER = """
+BANNER = formatting.bold("""
   _                       _              _                             _ 
  | |                     | |            | |                           | |
  | |      ___   __ _   __| |  ___  _ __ | |__    ___    __ _  _ __  __| |
  | |     / _ \ / _` | / _` | / _ \| '__|| '_ \  / _ \  / _` || '__|/ _` |
  | |____|  __/| (_| || (_| ||  __/| |   | |_) || (_) || (_| || |  | (_| |
  |______|\___| \__,_| \__,_| \___||_|   |_.__/  \___/  \__,_||_|   \__,_|
-"""
+""")
 
 def getTopScores():
 	with open(currentDir + '/scores.csv') as f:
@@ -50,7 +51,8 @@ def renderLeaderboard(name: str):
 	print('Here are the best of the best at Battleship.py!\n')
 	for i, score in enumerate(topScores):
 		scoreName = score.get('name')
-		suffix = ''
+		entry = '%i) %s - %i points!' % (i + 1, scoreName, score.get('score'))
 		if scoreName == name:
-			suffix = ' (it\'s you!)'
-		print('%i) %s - %i points!%s' % (i + 1, scoreName, score.get('score'), suffix))
+			entry += ' (it\'s you!)'
+			entry = formatting.bold(entry)
+		print(entry)

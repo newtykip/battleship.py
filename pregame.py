@@ -1,16 +1,21 @@
-from helper import cls, BANNER, exitGame
+from helper import cls, BANNER, exitGame, hasPlayed
 from singleplayer import startSingleplayer
 from leaderboards import viewLeaderboards
+import formatting
 import time
 
 def onboarding():
 	cls()
-	playerName = input("""
+	playerName = input(formatting.bold(formatting.green("""
 Hello, I'm Battleship.py! What is your name?\n
-""")
-	print("""
-It's nice to meet you, %s! Enjoy the game! <3
-	""" % (playerName))
+""")))
+	if hasPlayed(playerName):
+		greeting = 'Welcome back'
+	else:
+		greeting = 'It\'s nice to meet you'
+	print(formatting.red("""
+%s, %s! Enjoy the game! <3
+	""") % (greeting, playerName))
 	time.sleep(2)
 	cls()
 	return playerName
