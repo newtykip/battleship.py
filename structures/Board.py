@@ -2,7 +2,7 @@ from structures.Ship import Ship
 import modules.formatting as formatting
 
 class Board:
-	def __init__(self, settings: dict):
+	def __init__(self, settings: dict, ships: list[dict]):
 		self.settings = settings
 		self.ships: list[Ship] = []
 		self.size = settings.get('boardSize')
@@ -16,15 +16,13 @@ class Board:
 				row.append(col)
 			self.grid.append(row)
 		# Populate self.ships with the JSON data
-		for shipData in settings.get('ships'):
+		for shipData in ships:
 			for i in range(shipData.get('quantity')):
+				# Generate the ship
 				ship = Ship(shipData.get('name'), shipData.get('size'))
 				self.ships.append(ship)
-
-	# Spawn all ships populated in self.ships into the grid
-	def spawnShips(self):
-		for ship in self.ships:
-			ship.spawn(self.grid, self.size)
+				# Place it on the board
+				ship.spawn(self.grid, self.size)
 
 	# Find a ship by its UUID
 	def getShipById(self, id: str) -> Ship:

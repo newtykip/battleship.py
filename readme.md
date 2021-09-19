@@ -10,7 +10,7 @@
 - [x] Sinking Notifications
 - [x] Leaderboards for 1 player mode
 - [x] Colorise the console
-- [ ] Default settings and scores.csv preparation
+- [x] Default settings and scores.csv preparation
 - [ ] Make leaderboards global
 - [ ] 2 player mode
 

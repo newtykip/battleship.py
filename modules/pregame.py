@@ -1,6 +1,6 @@
 from modules.utils import cls, BANNER, exitGame, hasPlayed
 from modules.singleplayer import startSingleplayer
-from modules.leaderboards import viewLeaderboards
+from modules.leaderboards import renderLeaderboard
 import modules.formatting as formatting
 import time
 
@@ -48,3 +48,11 @@ def mainMenu(name: str):
 		cls()
 		mainMenu(name)
 		return
+
+def viewLeaderboards(name: str):
+	renderLeaderboard(name)
+	for i in range(1, 6):
+		print('\nReturning to the main menu in %i...' % (5 - i))
+		time.sleep(1)
+		renderLeaderboard(name)
+	mainMenu(name)

@@ -9,12 +9,12 @@ def startSingleplayer(name: str):
 	cls()
 	# Load settings.json
 	with open(rootDir + '/settings.json') as f:
-		settings = json.load(f)
+		f = json.load(f)
+		settings = f.get('singleplayer')
+		ships = f.get('general').get('ships')
 	# Initiate the game
-	board = Board(settings)
+	board = Board(settings, ships)
 	torpedos = settings.get('torpedos')
-	# Ready the board
-	board.spawnShips()
 	# Render the initial board
 	board.render()
 	# While there are still more torpedos to fire

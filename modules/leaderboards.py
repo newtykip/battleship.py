@@ -32,23 +32,17 @@ def getTopScores():
 		return filteredScores
 
 def saveScore(name: str, board: Board):
-	with open(rootDir + '/scores.csv', 'w') as f:
+	with open(rootDir + '/scores.csv', 'a') as f:
 		writer = csv.writer(f, delimiter=',')
 		writer.writerow([name, board.score])
-
-def viewLeaderboards(name: str):
-	renderLeaderboard(name)
-	for i in range(1, 6):
-		print('\n\nExiting in %i...' % (5 - i))
-		time.sleep(1)
-		renderLeaderboard(name)
-	exitGame(name)
 
 def renderLeaderboard(name: str):
 	cls()
 	topScores = getTopScores()
 	print(BANNER)
 	print('Here are the best of the best at Battleship.py!\n')
+	if len(topScores) == 0:
+		print(formatting.bold('No one has played Battleship.py yet! Be the first (:'))
 	for i, score in enumerate(topScores):
 		scoreName = score.get('name')
 		entry = '%i) %s - %i points!' % (i + 1, scoreName, score.get('score'))
