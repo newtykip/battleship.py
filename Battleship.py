@@ -1,9 +1,8 @@
-from modules.utils import ensureSettingsExists
-from modules.pregame import onboarding, mainMenu
+from modules.utils import checkSettings
+from modules.pregame import mainMenu
 
 # Ensure that settings.json exists
-ensureSettingsExists()
+checkSettings()
 
-# Figure out the player's name and trigger the main menu
-playerName = onboarding()
-mainMenu(playerName)
+# Trigger the main menu
+mainMenu()

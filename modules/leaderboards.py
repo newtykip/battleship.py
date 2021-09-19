@@ -1,6 +1,6 @@
 import json
 from structures.Board import Board
-from modules.utils import cls, error, exitGame, getBans, getScores, rootDir, scoreUrl
+from modules.utils import cls, error, exitGame, getBans, getScores, scoreUrl
 import modules.formatting as formatting
 import urllib
 

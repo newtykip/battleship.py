@@ -8,13 +8,8 @@ import re
 class OutOfBoundsError(Exception):
 	pass
 
-def startSingleplayer(name: str):
+def startSingleplayer(name: str, settings: dict, ships: dict):
 	cls()
-	# Load settings.json
-	with open(rootDir + '/settings.json') as f:
-		f = json.load(f)
-		settings = f.get('singleplayer')
-		ships = f.get('general').get('ships')
 	# Initiate the game
 	board = Board(settings, ships)
 	torpedos = settings.get('torpedos')

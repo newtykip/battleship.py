@@ -16,7 +16,7 @@
 - [x] Colorise the console
 - [x] Default settings
 - [x] Make leaderboards global
-- [ ] Save the username in settings.json
+- [x] Save the username in settings.json
 - [ ] 2 player mode
 
 <sub>View the license <a href="license.md">here.</a></sub>

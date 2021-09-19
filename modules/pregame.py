@@ -1,27 +1,40 @@
-from modules.utils import cls, BANNER, exitGame, hasPlayed
+from modules.utils import cls, BANNER, exitGame, rootDir
 from modules.singleplayer import startSingleplayer
 from modules.leaderboards import renderLeaderboard
 import modules.formatting as formatting
 import time
+import json
 
 def onboarding():
 	cls()
-	playerName = input(formatting.bold(formatting.green("""
+	username = input(formatting.bold(formatting.green("""
 Hello, I'm Battleship.py! What is your name?\n
 """)))
-	if hasPlayed(playerName):
-		greeting = 'Welcome back'
-	else:
-		greeting = 'It\'s nice to meet you'
 	print(formatting.red("""
-%s, %s! Enjoy the game! <3
-	""") % (greeting, playerName))
+It's nice to meet you, %s! Enjoy the game! <3
+	""") % (username))
 	time.sleep(2)
 	cls()
-	return playerName
+	# Save the username
+	with open(rootDir + '/settings.json') as f:
+		settings = json.load(f)
+	with open(rootDir + '/settings.json', 'w') as f:
+		settings['general']['username'] = username
+		f.write(json.dumps(settings, indent=2, sort_keys=True))
+		f.close()
+	return username
 
-def mainMenu(name: str):
+def mainMenu():
+	cls()
 	error = False
+	# Load settings.json
+	with open(rootDir + '/settings.json') as f:
+		f = json.load(f)
+		singleplayerSettings = f.get('singleplayer')
+		ships = f.get('general').get('ships')
+		name = f.get('general').get('username')
+	if name == None:
+		name = onboarding()
 	print(BANNER)
 	print("""
 %s, please select an option:
@@ -34,7 +47,7 @@ def mainMenu(name: str):
 		try:
 			choice = int(input('Your choice: '))
 			if choice == 1:
-				startSingleplayer(name)
+				startSingleplayer(name, singleplayerSettings, ships)
 			elif choice == 2:
 				viewLeaderboards(name)
 			elif choice == 3:
