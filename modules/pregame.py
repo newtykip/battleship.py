@@ -29,7 +29,7 @@ def mainMenu(name: str):
 1) Singleplayer
 2) Leaderboards
 3) Exit
-	""" % (name))
+	""" % (formatting.bold(name)))
 	while True:
 		try:
 			choice = int(input('Your choice: '))
