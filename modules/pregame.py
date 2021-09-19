@@ -1,7 +1,7 @@
-from helper import cls, BANNER, exitGame, hasPlayed
-from singleplayer import startSingleplayer
-from leaderboards import viewLeaderboards
-import formatting
+from modules.utils import cls, BANNER, exitGame, hasPlayed
+from modules.singleplayer import startSingleplayer
+from modules.leaderboards import viewLeaderboards
+import modules.formatting as formatting
 import time
 
 def onboarding():

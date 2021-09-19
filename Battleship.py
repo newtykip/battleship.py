@@ -1,4 +1,4 @@
-from pregame import onboarding, mainMenu
+from modules.pregame import onboarding, mainMenu
 
 # Figure out the player's name and trigger the main menu
 playerName = onboarding()

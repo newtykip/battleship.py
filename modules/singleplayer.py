@@ -1,15 +1,14 @@
-from leaderboards import saveScore
-from helper import cls, error
-from Board import Board
-from helper import currentDir
-import formatting
+from modules.leaderboards import saveScore
+from modules.utils import cls, error, rootDir
+from structures.Board import Board
+import modules.formatting as formatting
 import json
 import re
 
 def startSingleplayer(name: str):
 	cls()
 	# Load settings.json
-	with open(currentDir + '/settings.json') as f:
+	with open(rootDir + '/settings.json') as f:
 		settings = json.load(f)
 	# Initiate the game
 	board = Board(settings)

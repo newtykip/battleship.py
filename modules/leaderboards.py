@@ -1,8 +1,8 @@
-from Board import Board
-from helper import cls, currentDir, exitGame
+from structures.Board import Board
+from modules.utils import cls, rootDir, exitGame
 import csv
 import time
-import formatting
+import modules.formatting as formatting
 
 BANNER = formatting.bold("""
   _                       _              _                             _ 
@@ -14,7 +14,7 @@ BANNER = formatting.bold("""
 """)
 
 def getTopScores():
-	with open(currentDir + '/scores.csv') as f:
+	with open(rootDir + '/scores.csv') as f:
 		reader = csv.reader(f, delimiter=',')
 		reader = sorted(reader, key=lambda x: (-int(x[1]))) # Sort the scores by highest
 		filteredScores = []
@@ -32,7 +32,7 @@ def getTopScores():
 		return filteredScores
 
 def saveScore(name: str, board: Board):
-	with open(currentDir + '/scores.csv', 'w') as f:
+	with open(rootDir + '/scores.csv', 'w') as f:
 		writer = csv.writer(f, delimiter=',')
 		writer.writerow([name, board.score])
 

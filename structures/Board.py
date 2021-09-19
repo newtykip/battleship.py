@@ -1,5 +1,5 @@
-from Ship import Ship
-import formatting
+from structures.Ship import Ship
+import modules.formatting as formatting
 
 class Board:
 	def __init__(self, settings: dict):

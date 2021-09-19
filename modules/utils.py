@@ -1,5 +1,5 @@
 import os
-import formatting
+import modules.formatting as formatting
 import csv
 
 BANNER = formatting.bold("""
@@ -22,7 +22,7 @@ def exitGame(name):
 	exit()
 
 def hasPlayed(name):
-  with open(currentDir + '/scores.csv') as f:
+  with open(rootDir + '/scores.csv') as f:
     reader = csv.reader(f, delimiter=',')
     found = False
     for row in reader:
@@ -35,4 +35,4 @@ def hasPlayed(name):
 def error(txt):
   print(formatting.bold(formatting.red(txt)))
 
-currentDir = os.path.dirname(os.path.realpath(__file__))
+rootDir = os.path.dirname(os.path.realpath(__file__)) + '/..'
