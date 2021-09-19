@@ -33,7 +33,7 @@ def getTopScores():
 			filteredScores.append(formattedScore)
 		else:
 			for oldScore in filteredScores:
-				if name == oldScore.get('name') and oldScore.get('ratio') < ratio:
+				if name.lower() == oldScore.get('name').lower() and oldScore.get('ratio') < ratio:
 					filteredScores.remove(oldScore)
 					filteredScores.append(formattedScore)
 	return sorted(filteredScores, key=lambda x: x['ratio'], reverse=True)
@@ -75,7 +75,7 @@ def renderLeaderboard(name: str):
 	for i, score in enumerate(topScores):
 		scoreName = score.get('name')
 		entry = '%i) %s - %i points in %i torpedos!' % (i + 1, scoreName, score.get('score'), score.get('torpedos'))
-		if scoreName == name:
+		if scoreName.lower() == name.lower():
 			entry += ' (it\'s you!)'
 			entry = formatting.bold(entry)
 		print(entry)

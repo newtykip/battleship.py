@@ -5,6 +5,9 @@ import modules.formatting as formatting
 import json
 import re
 
+class OutOfBoundsError(Exception):
+	pass
+
 def startSingleplayer(name: str):
 	cls()
 	# Load settings.json
@@ -29,6 +32,8 @@ def startSingleplayer(name: str):
 				# Parse the co-ordinates
 				x = int(coordinates[0])
 				y = int(coordinates[1])
+				if x > board.size or y > board.size or x < 1 or y < 1:
+					raise OutOfBoundsError
 				break
 			except ValueError:
 				cls()
@@ -39,6 +44,11 @@ def startSingleplayer(name: str):
 				cls()
 				board.render()
 				error('\nPlease enter a pair of two coordinates this time!')
+				continue
+			except OutOfBoundsError:
+				cls()
+				board.render()
+				error('\nPlease ensure the coordinates you enter are in bounds this time!')
 				continue
 		# Shoot the shot
 		hitResponse = board.shoot(x, y)
