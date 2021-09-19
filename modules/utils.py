@@ -2,6 +2,7 @@ import os
 import modules.formatting as formatting
 import urllib.request
 import json
+import time
 
 BANNER = formatting.bold("""
   ____          _    _    _             _      _                        
@@ -18,9 +19,9 @@ def cls():
     os.system('cls' if os.name=='nt' else 'clear')
 
 def exitGame(name):
-	cls()
-	print('See you next time, %s (:' % (name))
-	exit()
+  print('See you next time, %s (:' % (name))
+  time.sleep(2)
+  exit()
 
 def getScores() -> list[dict]:
   r = urllib.request.urlopen(scoreUrl)

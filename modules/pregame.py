@@ -38,6 +38,7 @@ def mainMenu(name: str):
 			elif choice == 2:
 				viewLeaderboards(name)
 			elif choice == 3:
+				cls()
 				exitGame(name)
 			break
 		except ValueError:

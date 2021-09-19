@@ -1,6 +1,6 @@
 import json
 from structures.Board import Board
-from modules.utils import cls, getScores, rootDir, scoreUrl
+from modules.utils import cls, error, exitGame, getScores, rootDir, scoreUrl
 import csv
 import modules.formatting as formatting
 import urllib
@@ -41,6 +41,12 @@ def getTopScores():
 
 def saveScore(name: str, board: Board):
 	scores = getScores()
+	maxScore = 0
+	for ship in board.ships:
+		maxScore += ship.size
+	if board.score > maxScore:
+		error('That score isn\'t legitimate! >:(\n')
+		exitGame(name)
 	newScore = {
 		'name': name,
 		'score': board.score,
