@@ -1,9 +1,8 @@
-from modules.utils import ensureSettingsExists, ensureScoreFileExists
+from modules.utils import ensureSettingsExists
 from modules.pregame import onboarding, mainMenu
 
-# Ensure that settings.json and scores.csv exist
+# Ensure that settings.json exists
 ensureSettingsExists()
-ensureScoreFileExists()
 
 # Figure out the player's name and trigger the main menu
 playerName = onboarding()

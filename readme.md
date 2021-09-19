@@ -14,8 +14,9 @@
 - [x] Sinking Notifications
 - [x] Leaderboards for 1 player mode
 - [x] Colorise the console
-- [x] Default settings and scores.csv preparation
-- [ ] Make leaderboards global
+- [x] Default settings
+- [x] Make leaderboards global
+- [ ] Save the username in settings.json
 - [ ] 2 player mode
 
 <sub>View the license <a href="license.md">here.</a></sub>

@@ -1,8 +1,9 @@
+import json
 from structures.Board import Board
-from modules.utils import cls, rootDir, exitGame
+from modules.utils import cls, getScores, rootDir, scoreUrl
 import csv
-import time
 import modules.formatting as formatting
+import urllib
 
 BANNER = formatting.bold("""
   _                       _              _                             _ 
@@ -14,27 +15,42 @@ BANNER = formatting.bold("""
 """)
 
 def getTopScores():
-	with open(rootDir + '/scores.csv') as f:
-		reader = csv.reader(f, delimiter=',')
-		reader = sorted(reader, key=lambda x: (-int(x[1]))) # Sort the scores by highest
-		filteredScores = []
-		filteredScoresNames = []
-		for score in reader:
-			if len(score) > 0:
-				# Only take the best score from each player
-				scoreName = score[0]
-				if scoreName not in filteredScoresNames:
-					filteredScoresNames.append(scoreName)
-					filteredScores.append({
-						'name': score[0],
-						'score': int(score[1])
-					})
-		return filteredScores
+	scores = getScores()
+	filteredScores = []
+	filteredScoresNames = []
+	for score in scores:
+		name = score.get('name')
+		scoreValue = score.get('score')
+		torpedos = score.get('torpedos')
+		ratio = scoreValue / torpedos
+		formattedScore = {
+			'name': name,
+			'score': scoreValue,
+			'torpedos': torpedos,
+			'ratio': ratio
+		}
+		if name not in filteredScoresNames:
+			filteredScoresNames.append(name)
+			filteredScores.append(formattedScore)
+		else:
+			for oldScore in filteredScores:
+				if name == oldScore.get('name') and oldScore.get('ratio') < ratio:
+					filteredScores.remove(oldScore)
+					filteredScores.append(formattedScore)
+	return sorted(filteredScores, key=lambda x: x['ratio'], reverse=True)
 
 def saveScore(name: str, board: Board):
-	with open(rootDir + '/scores.csv', 'a') as f:
-		writer = csv.writer(f, delimiter=',')
-		writer.writerow([name, board.score])
+	scores = getScores()
+	newScore = {
+		'name': name,
+		'score': board.score,
+		'torpedos': board.settings.get('torpedos')
+	}
+	scores.append(newScore)
+	data = bytes(json.dumps({ 'scores': scores }).encode('UTF-8'))
+	r = urllib.request.Request(scoreUrl, data=data, method='PUT')
+	r.add_header("Content-type", "application/json; charset=UTF-8")
+	urllib.request.urlopen(r)
 
 def renderLeaderboard(name: str):
 	cls()
@@ -45,7 +61,7 @@ def renderLeaderboard(name: str):
 		print(formatting.bold('No one has played Battleship.py yet! Be the first (:'))
 	for i, score in enumerate(topScores):
 		scoreName = score.get('name')
-		entry = '%i) %s - %i points!' % (i + 1, scoreName, score.get('score'))
+		entry = '%i) %s - %i points in %i torpedos!' % (i + 1, scoreName, score.get('score'), score.get('torpedos'))
 		if scoreName == name:
 			entry += ' (it\'s you!)'
 			entry = formatting.bold(entry)

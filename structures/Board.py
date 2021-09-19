@@ -5,6 +5,7 @@ class Board:
 	def __init__(self, settings: dict, ships: list[dict]):
 		self.settings = settings
 		self.ships: list[Ship] = []
+		self.shipData = ships
 		self.size = settings.get('boardSize')
 		self.score = 0
 		# Generate an empty grid to play in
@@ -49,7 +50,7 @@ class Board:
 							for row2 in self.grid:
 								for col2 in row2:
 									if col2.get('id') == col.get('id'):
-										for shipType in self.settings.get('ships'):
+										for shipType in self.shipData:
 											if shipType.get('name') == col2.get('name'):
 												# Find the size of the ship in column 2
 												col2Size = shipType.get('size')
@@ -58,7 +59,6 @@ class Board:
 												# If the ship has died
 												if counter == col2Size:
 													return col.get('id')
-							self.score += 1
 							return 2
 						else:
 							return 1

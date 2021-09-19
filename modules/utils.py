@@ -1,6 +1,5 @@
 import os
 import modules.formatting as formatting
-import csv
 import urllib.request
 import json
 
@@ -23,16 +22,19 @@ def exitGame(name):
 	print('See you next time, %s (:' % (name))
 	exit()
 
+def getScores() -> list[dict]:
+  r = urllib.request.urlopen(scoreUrl)
+  r = json.load(r)
+  return r['scores']
+
 def hasPlayed(name):
-  with open(rootDir + '/scores.csv') as f:
-    reader = csv.reader(f, delimiter=',')
-    found = False
-    for row in reader:
-      for col in row:
-        if col == name:
-          found = True
-          break
-    return found
+  found = False
+  scores = getScores()
+  for score in scores:
+    if score.get('name') == name:
+      found = True
+      break
+  return found
 
 def error(txt):
   print(formatting.bold(formatting.red(txt)))
@@ -41,17 +43,13 @@ def ensureSettingsExists():
   # If there is no settings file
   if not os.path.isfile(rootDir + '/settings.json'):
     # Fetch the default settings from GitHub gists
-    defaultSettings = urllib.request.urlopen('https://api.github.com/gists/27d2fe8d45dec9eb59b683b165daa563')
+    defaultSettings = urllib.request.urlopen(settingsUrl)
     defaultSettings = json.load(defaultSettings)
     # Save the default settings to a file
     with open(rootDir + '/settings.json', 'w') as f:
-      f.write(defaultSettings['files']['settings.json']['content'])
+      f.write(defaultSettings.get('files').get('settings.json').get('content'))
       f.close()
 
-def ensureScoreFileExists():
-  # If there is no scores file
-  if not os.path.isfile(rootDir + '/scores.csv'):
-    # Create a scores file
-    open(rootDir + '/scores.csv', 'x').close()
-
 rootDir = os.path.dirname(os.path.realpath(__file__)) + '/..'
+settingsUrl = 'https://api.github.com/gists/27d2fe8d45dec9eb59b683b165daa563'
+scoreUrl = 'https://jsonblob.com/api/jsonBlob/889122681291816960'
