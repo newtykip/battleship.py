@@ -1,7 +1,6 @@
 import json
 from structures.Board import Board
-from modules.utils import cls, error, exitGame, getScores, rootDir, scoreUrl
-import csv
+from modules.utils import cls, error, exitGame, getBans, getScores, rootDir, scoreUrl
 import modules.formatting as formatting
 import urllib
 
@@ -41,22 +40,30 @@ def getTopScores():
 
 def saveScore(name: str, board: Board):
 	scores = getScores()
+	bans = getBans()
+	if name in bans:
+		error('You have been banned from score submission, so your score has not submitted!')
+		exitGame(name)
 	maxScore = 0
 	for ship in board.ships:
 		maxScore += ship.size
 	if board.score > maxScore:
 		error('That score isn\'t legitimate! >:(\n')
-		exitGame(name)
-	newScore = {
-		'name': name,
-		'score': board.score,
-		'torpedos': board.settings.get('torpedos')
-	}
-	scores.append(newScore)
-	data = bytes(json.dumps({ 'scores': scores }).encode('UTF-8'))
+		bans.append(name.lower())
+		data = bytes(json.dumps({ 'scores': scores, 'bans': bans }).encode('UTF-8'))
+	else:
+		newScore = {
+			'name': name.lower(),
+			'score': board.score,
+			'torpedos': board.settings.get('torpedos')
+		}
+		scores.append(newScore)
+		data = bytes(json.dumps({ 'scores': scores }).encode('UTF-8'))
 	r = urllib.request.Request(scoreUrl, data=data, method='PUT')
 	r.add_header("Content-type", "application/json; charset=UTF-8")
 	urllib.request.urlopen(r)
+	if board.score > maxScore:
+		exitGame(name)
 
 def renderLeaderboard(name: str):
 	cls()

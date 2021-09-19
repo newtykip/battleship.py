@@ -28,11 +28,16 @@ def getScores() -> list[dict]:
   r = json.load(r)
   return r['scores']
 
+def getBans() -> list[str]:
+  r = urllib.request.urlopen(scoreUrl)
+  r = json.load(r)
+  return r['bans']
+
 def hasPlayed(name):
   found = False
   scores = getScores()
   for score in scores:
-    if score.get('name') == name:
+    if score.get('name').lower() == name.lower():
       found = True
       break
   return found
