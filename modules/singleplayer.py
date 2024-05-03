@@ -1,6 +1,6 @@
 from modules.leaderboards import saveScore
 from modules.utils import cls, error, rootDir
-from structures.Board import Board
+from structures.board import Board
 import modules.formatting as formatting
 import json
 import re

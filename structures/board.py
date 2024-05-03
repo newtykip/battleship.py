@@ -1,4 +1,4 @@
-from structures.Ship import Ship
+from structures.ship import Ship
 import modules.formatting as formatting
 
 class Board:

@@ -1,5 +1,5 @@
 import json
-from structures.Board import Board
+from structures.board import Board
 from modules.utils import cls, error, exitGame, getBans, getScores, scoreUrl
 import modules.formatting as formatting
 import urllib
